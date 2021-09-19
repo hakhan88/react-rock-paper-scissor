@@ -61,10 +61,10 @@ const App = () => {
         <div>
             {seconds === 0 ?
                 <div>
-                    <button onClick={startTimer}>Play again</button>
                     {
                         choiceSelected ?
                             <div>
+                                <button onClick={startTimer}>Play again</button>
                                 <h1>user choice is: {userChoice}</h1>
                                 <h1>computer choice is: {computerChoice}</h1>
                             </div> :
