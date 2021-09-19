@@ -13,5 +13,20 @@ describe('Test Wrapper', () => {
             const testing = render(<App />);
             expect(testing.getByText('Please select your choice')).toHaveTextContent('Please select your choice');
         });
+
+        it('should render correctly in "debug" mode to show "rock"', () => {
+            const testing = render(<App />);
+            expect(testing.getByText('rock')).toHaveTextContent('rock');
+        });
+
+        it('should render correctly in "debug" mode to show "paper"', () => {
+            const testing = render(<App />);
+            expect(testing.getByText('paper')).toHaveTextContent('paper');
+        });
+
+        it('should render correctly in "debug" mode to show "scissors"', () => {
+            const testing = render(<App />);
+            expect(testing.getByText('scissors')).toHaveTextContent('scissors');
+        });
     });
 });
