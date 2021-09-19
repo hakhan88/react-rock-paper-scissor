@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react'
 
 const App = () => {
-    const [userChoice, setUserChoice] = useState(null)
-    const [computerChoice, setComputerChoice] = useState(null)
-    const [result, setResult] = useState(null)
-    const choices = ['rock', 'paper', 'scissors']
+    const [userChoice, setUserChoice] = useState(null);
+    const [computerChoice, setComputerChoice] = useState(null);
+    const [result, setResult] = useState(null);
+    const [seconds, setSeconds] = useState(0);
+    const [choiceSelected, setChoiceSelected] = useState(false);
+    const choices = ['rock', 'paper', 'scissors'];
 
     const handleClick = (value) => {
-        setUserChoice(value)
-        generateComputerChoice()
+        setChoiceSelected(true);
+        setUserChoice(value);
+        generateComputerChoice();
     }
 
     const generateComputerChoice = () => {
@@ -16,7 +19,16 @@ const App = () => {
         setComputerChoice(randomChoice)
     }
 
+    const startTimer = () => {
+        setSeconds(3);
+        setResult(null);
+        setComputerChoice(null);
+        setUserChoice(null);
+        setChoiceSelected(false);
+    }
+
     useEffect(() => {
+        // eslint-disable-next-line no-lone-blocks
         {
             switch (userChoice + computerChoice) {
                 case 'scissorspaper':
@@ -34,20 +46,45 @@ const App = () => {
                 case 'scissorsscissors':
                     setResult('ITS A DRAW!')
                     break
+                default:
+                    break
             }
         }
-    }, [computerChoice, userChoice])
+        if (seconds > 0) {
+            setTimeout(() => {
+                setSeconds(seconds - 1);
+            }, 1000);
+        }
+    }, [computerChoice, userChoice, seconds])
 
     return (
         <div>
-            <h1>user choice is: {userChoice}</h1>
-            <h1>computer choice is: {computerChoice}</h1>
-            {choices.map((choice, index) =>
-                <button key={index} onClick={() => handleClick(choice)}>
-                    {choice}
-                </button>
-            )}
-            <h1>{result}</h1>
+            {seconds === 0 ?
+                <div>
+                    <button onClick={startTimer}>Play again</button>
+                    {
+                        choiceSelected ?
+                            <div>
+                                <h1>user choice is: {userChoice}</h1>
+                                <h1>computer choice is: {computerChoice}</h1>
+                            </div> :
+                            <div>
+                                <p>
+                                    Please select your choice
+                                </p>
+                                {
+                                    choices.map((choice, index) =>
+                                        <button key={index} onClick={() => handleClick(choice)}>
+                                            {choice}
+                                        </button>
+                                    )
+                                }
+                            </div>
+                    }
+                    <h1>{result}</h1>
+                </div>
+
+                : seconds}
         </div>
     )
 }
